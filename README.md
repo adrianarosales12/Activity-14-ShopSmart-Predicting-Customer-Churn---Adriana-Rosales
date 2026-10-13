@@ -3,7 +3,6 @@
 ## Due date (mm/dd/yyyy): 10/18/2026
 ## Adriana Rosales González
 ## Delivery Format: [] Video URL | [X] Markdown file | [] Jupyter Notebook file
-
 ---
 
 ## The Story
@@ -80,20 +79,95 @@ length) — and only 20 training customers to learn from.
 
 **1. For the **plain (unregularized) model**, report the train accuracy, test accuracy, train loss, and test loss.**
 
-**2. Report all 8 coefficients of the **Canonical L2 (Ridge) Model**.**
+
+Plain (unregularized) model
+- Train accuracy: **100%**
+- Test accuracy: **77%**
+- Train loss: **0.022**
+- Test loss: **2.887**
+
+The model memorized the training set (100% accuracy) but generalized poorly (much lower test accuracy and very high test loss).
+The plain logistic regression model fits the training data perfectly, reaching 100% accuracy and almost zero loss. However, this is a textbook case of overfitting: the model memorized the training set but failed to generalize. The test accuracy drops to 77%, and the test loss is more than 130 times higher than the training loss. This shows the model is not reliable for predicting churn in new customers.
+
+---
+
+**2. Report all 8 coefficients of the Canonical L2 (Ridge) Model**
+
+Canonical L2 (Ridge) Model — Coefficients (λ = 0.05)
+- Tenure (months as a customer): ≈ -2.0  
+- Average monthly spend ($): ≈ +0.4  
+- Support tickets filed: ≈ +0.3  
+- Days since last purchase: ≈ +0.2  
+- Favorite color (code): ≈ 0.0  
+- Customer’s “lucky number”: ≈ 0.0  
+- Day of week they signed up: ≈ 0.0  
+- Length of referral code: ≈ 0.0  
+
+L2 regularization shrinks all coefficients smoothly toward zero. The important behavioral features (tenure, spend, tickets, recency) remain with meaningful values, while the irrelevant “noise” features are reduced close to zero. This prevents the model from relying on random correlations.
+
+---
 
 **3. Report the **Canonical L2 Model's** train and test accuracy. How do they compare to the plain model's from Question 1?**
 
+- Train accuracy: **95%**
+- Test accuracy: **83%**
+
+Compared to the plain model (100% / 77%), the L2 model sacrifices a small amount of training accuracy but gains significantly in test accuracy (+6 points). This demonstrates **better generalization**: the model is less perfect on the training set but more trustworthy on unseen data.
+
+---
+
 **4. Report all 8 coefficients of the **Canonical L1 (Lasso) Model**, and name exactly which feature(s) were driven to zero.**
+
+ Canonical L1 (Lasso) Model — Coefficients (λ = 0.05)
+ 
+- Tenure (months as a customer): ≈ -2.0  
+- Average monthly spend ($): **0 (zeroed out)**  
+- Support tickets filed: ≈ +0.3  
+- Days since last purchase: ≈ +0.2  
+- Favorite color (code): **0 (zeroed out)**  
+- Customer’s “lucky number”: **0 (zeroed out)**  
+- Day of week they signed up: **0 (zeroed out)**  
+- Length of referral code: **0 (zeroed out)**  
+
+**Zeroed-out features:** Average monthly spend, Favorite color, Lucky number, Day of week signup, Referral code length.  
+L1 regularization performs **automatic feature selection** by driving irrelevant coefficients exactly to zero, leaving only the most predictive variables active.
+
+---
 
 **5. Report the **Canonical L1 Model's** train and test accuracy.**
 
+Canonical L1 Model — Performance
+- Train accuracy: **95%**
+- Test accuracy: **73%**
+
+The L1 model achieves similar training accuracy as L2 but slightly lower test accuracy. This is because it aggressively eliminates features, which can simplify the model but sometimes remove borderline useful variables. Still, it highlights the most important predictors clearly.
+
+---
+
 **6. In your own words, explain the key difference between how **L2** and **L1** treat coefficients as λ grows, based on what you saw in the bar charts.**
+
+Key difference between L2 and L1
+- **L2 (Ridge):** shrinks all coefficients gradually. No feature is eliminated completely, but noise features become very small. This is useful when many features may contribute a little.  
+- **L1 (Lasso):** forces some coefficients to exactly zero, effectively removing those features. This is useful when we suspect only a few features are truly relevant.  
+In the charts, L2 reduced the red bars smoothly, while L1 erased several bars entirely.
+
+---
 
 **7. True or False: the unregularized model's 100% training accuracy means it's the best model to actually deploy for predicting churn on new customers. Justify your answer using the actual numbers from Question 1.**
 
+- **False.**  
+
+The unregularized model’s 100% training accuracy looks impressive, but it is misleading. Its test accuracy is only 77% and test loss is extremely high (2.887). This proves it does not generalize well. A deployable model must perform well on unseen data, so the unregularized model is not suitable for predicting churn in real business scenarios.
+
+---
+
 **8. Name one **real business or IT scenario** (other than churn prediction) where a classification model could overfit due to too many irrelevant features. Which regularization type (L1 or L2) would you reach for first, and why?**
 
+A clear example is **fraud detection in banking transactions**. If the model includes irrelevant features (like the customer’s browser theme, or the exact minute of login), it may overfit to noise patterns.  
+- In such a case, **L1 (Lasso)** would be my first choice because it automatically eliminates irrelevant variables, simplifying the model and focusing only on the strongest predictors.  
+- L2 could also help, but L1 is especially powerful when we want to reduce the feature set and avoid spurious correlations.
+
+---
 
 # References:
 - [Streamlit documentation](https://docs.streamlit.io/)
