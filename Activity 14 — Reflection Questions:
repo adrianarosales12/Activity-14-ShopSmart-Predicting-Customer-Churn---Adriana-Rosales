@@ -1,13 +1,14 @@
 # Activity 14 — Reflection Questions: ShopSmart Churn Prediction
 
-Answer every question below using the **Canonical Model** sections only (not the playground),
-unless a question specifically asks about your own playground exploration. Submit this file
-separately from your screenshots — do not just describe the app, use your actual results.
-
----
-
 1. For the **plain (unregularized) model**, report the train accuracy, test accuracy, train
    loss, and test loss.
+
+- Train accuracy: **100%**
+- Test accuracy: **77%**
+- Train loss: **0.022**
+- Test loss: **2.887**
+The model memorized the training set (100% accuracy) but generalized poorly (much lower test accuracy and very high test loss).
+
 
 2. Report all 8 coefficients of the **Canonical L2 (Ridge) Model**.
 
